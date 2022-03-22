@@ -2,18 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-class Square extends React.Component {
-
-  render() {
-    return (
-      <button 
-        className="square" 
-        onClick={()=> this.props.onClick()}
-      >  
-        {this.props.value}
-      </button>
-    )
-  }
+//components that don't have their own state can be rewritten as function components
+function Square (props) {
+  return (
+    <button 
+      className="square" 
+      onClick={()=> props.onClick()}
+    >  
+      {props.value}
+    </button>
+  )
 }
 
 class Board extends React.Component {
@@ -23,6 +21,14 @@ class Board extends React.Component {
       squares: Array(9).fill(null)
     }
   }
+
+  handleClick(i) {
+    //create a copy of squares using .slice() instead of modifying the existing array
+    const squares = this.state.squares.slice()
+    squares[i] = 'X'
+    this.setState({squares: squares})
+  }
+
   renderSquare(i) {
     return (
       <Square 
